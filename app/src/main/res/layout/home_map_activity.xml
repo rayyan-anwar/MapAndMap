@@ -38,6 +38,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:text="Go" />
+        <Button
+    android:id="@+id/clear"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:text="Clear" />
            <!-- android:onClick="geoLocate" -->
     </LinearLayout>
 
