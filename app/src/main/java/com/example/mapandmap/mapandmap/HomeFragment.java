@@ -227,7 +227,7 @@ public void onClick(View v) {
 
     gotoLocation(lat, lng, 15);
 }
-    }
+    
     // to hide keyboard must use getActivity() and Context
 
     private void hideSoftKeyboard(View v) {
