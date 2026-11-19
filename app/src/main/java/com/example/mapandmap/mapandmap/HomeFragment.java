@@ -163,17 +163,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.go:
-                try {
-                    geoLocate(v);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-        }
+public void onClick(View v) {
+    switch (v.getId()) {
+        case R.id.go:
+            try {
+                geoLocate(v);
+            } catch (IOException e) {
+                Toast.makeText(getActivity(),
+                        "Unable to search location. Please try again.",
+                        Toast.LENGTH_SHORT).show();
+            }
+            break;
+
+        case R.id.clear:
+            et.setText("");
+            et.requestFocus();
+            break;
     }
+}
 
 
     private void gotoLocation(double lat, double lng, float zoom) {
@@ -182,23 +189,41 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         map.moveCamera(update);
     }
 
-    public void geoLocate(View v) throws IOException {
-        hideSoftKeyboard(v);
+   public void geoLocate(View v) throws IOException {
+    String location = et.getText().toString().trim();
 
+    if (location.length() == 0) {
+        et.setError("Enter a location");
+        et.requestFocus();
+        return;
+    }
 
-        String location = et.getText().toString();
+    hideSoftKeyboard(v);
 
-        Geocoder gc = new Geocoder(getActivity());
-        List<Address> list = gc.getFromLocationName(location, 1);
-        Address add = list.get(0);
-        String locality = add.getLocality();
-        Toast.makeText(getActivity(), locality, Toast.LENGTH_LONG).show();
+    Geocoder gc = new Geocoder(getActivity());
+    List<Address> list = gc.getFromLocationName(location, 1);
 
-        double lat = add.getLatitude();
-        double lng = add.getLongitude();
+    if (list == null || list.isEmpty()) {
+        Toast.makeText(getActivity(),
+                "Location not found. Please try another search.",
+                Toast.LENGTH_SHORT).show();
+        return;
+    }
 
-        gotoLocation(lat, lng, 15);
+    Address add = list.get(0);
+    String locality = add.getLocality();
 
+    if (locality == null || locality.length() == 0) {
+        locality = location;
+    }
+
+    Toast.makeText(getActivity(), locality, Toast.LENGTH_LONG).show();
+
+    double lat = add.getLatitude();
+    double lng = add.getLongitude();
+
+    gotoLocation(lat, lng, 15);
+}
     }
     // to hide keyboard must use getActivity() and Context
 
