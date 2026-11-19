@@ -94,8 +94,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         et = (EditText) v.findViewById(R.id.editText1);
         //added the go button listener
-        Button go = (Button) v.findViewById(R.id.go);
-        go.setOnClickListener(this);
+           Button go = (Button) v.findViewById(R.id.go);
+           go.setOnClickListener(this);
+
+            Button clear = (Button) v.findViewById(R.id.clear);
+            clear.setOnClickListener(this);
         //added mapclicklistener for testing
         /*map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
